@@ -23,8 +23,6 @@ services:
     image: wordpress:php7.4
     volumes:
       - ./wp_volume:/var/www/html
-    ports:
-      - "8080:80"
     environment:
       WORDPRESS_DB_HOST: db:4584
       WORDPRESS_DB_USER: wp_user
@@ -40,8 +38,6 @@ services:
   phpmyadmin:
     container_name: phpmyadmin
     image: phpmyadmin:5.2.0
-    ports:
-     - "8081:80"
     environment:
       PMA_HOST: db:4584
     depends_on:
@@ -49,6 +45,21 @@ services:
     cpus: 0.5
     mem_limit: 256m
     mem_reservation: 64m
+
+#haproxy
+  haproxy:
+    container_name: haproxy
+    image: haproxy:2.7-dev7
+    volumes:
+     - ./HAProxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+     - "80:80"
+     - "81:81"
+    cpus: 0.5
+    mem_limit: 128m
+    depends_on:
+    - wp
+    - phpmyadmin
     
 volumes:
   wp_volume: {}
