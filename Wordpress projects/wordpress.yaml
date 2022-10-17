@@ -4,15 +4,15 @@ services:
 #DB container
   db:
     container_name: mariadb
-    image: mariadb:10.9.3
+    image: mariadb:${DB_ImageTag}
     volumes:
       - ./db_mariadb_volume:/var/lib/mysql
     environment:
-      MARIADB_USER: wp_user
-      MARIADB_PASSWORD: password1
-      MARIADB_DATABASE: wp_db
+      MARIADB_USER: ${DB_User}
+      MARIADB_PASSWORD: ${DB_Password}
+      MARIADB_DATABASE: ${DB_DBName}
       MARIADB_RANDOM_ROOT_PASSWORD: "yes"
-      MYSQL_TCP_PORT: "4584"
+      MYSQL_TCP_PORT: ${DB_TCPPORT}
     cpus: 1.0
     mem_limit: 2048m
     mem_reservation: 128m
@@ -20,14 +20,14 @@ services:
 #Wordpress container
   wp:
     container_name: wordpress
-    image: wordpress:php7.4
+    image: wordpress:${WP_ImageTag}
     volumes:
       - ./wp_volume:/var/www/html
     environment:
-      WORDPRESS_DB_HOST: db:4584
-      WORDPRESS_DB_USER: wp_user
-      WORDPRESS_DB_NAME: wp_db
-      WORDPRESS_DB_PASSWORD: password1
+      WORDPRESS_DB_HOST: db:${DB_TCPPORT}
+      WORDPRESS_DB_USER: ${DB_User}
+      WORDPRESS_DB_NAME: ${DB_DBName}
+      WORDPRESS_DB_PASSWORD: ${DB_Password}
     depends_on:
       - db
     cpus: 2.0
@@ -37,9 +37,9 @@ services:
 #phpmyadmin container
   phpmyadmin:
     container_name: phpmyadmin
-    image: phpmyadmin:5.2.0
+    image: phpmyadmin:${MyAdm_ImageTag}
     environment:
-      PMA_HOST: db:4584
+      PMA_HOST: db:${DB_TCPPORT}
     depends_on:
       - db
     cpus: 0.5
@@ -49,7 +49,7 @@ services:
 #haproxy
   haproxy:
     container_name: haproxy
-    image: haproxy:2.7-dev7
+    image: haproxy:${HAPX_ImageTag}
     volumes:
      - ./HAProxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
     ports:
