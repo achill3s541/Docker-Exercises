@@ -4,7 +4,7 @@ import "fmt"
 
 func main() {
 	var students [5]string
-	fmt.Printf("Hello,\nI am simple GOlang app. I have been created to print some values from my array.")
+	fmt.Printf("Hello,\nI am simple GOlang app. I have been created to print some values from my array.\n")
 	students[0] = "Alice"
 	students[1] = "Lisa"
 	students[2] = "Johnny"
