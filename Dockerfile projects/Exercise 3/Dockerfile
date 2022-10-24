@@ -6,6 +6,6 @@ CMD ["go", "run", "main.go"]
 FROM development as builder
 RUN go mod init array && go build
 
-FROM alpine:3.16.2
+FROM alpine:3.16.2 as stage
 COPY --from=builder /app/array .
 CMD ["./array"]
