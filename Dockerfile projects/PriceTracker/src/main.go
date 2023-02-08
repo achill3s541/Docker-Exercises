@@ -133,7 +133,7 @@ func compareContToJSON(variantJSON []string, variant []string, priceJSON []float
 }
 
 func emailSender(messageInput string, subjectPrefix string) error {
-	//This function is responsible for sending email if the Webiste's price is lower then JSON's price.
+	//This function is responsible for sending email if the Webiste's price is lower then the JSON's price.
 	var subject string
 	envEmailSenderUser := os.Getenv("envEmailSenderUser")
 	envEmailSenderPassword := os.Getenv("envEmailSenderPassword")
